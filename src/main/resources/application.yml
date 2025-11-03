@@ -1,1 +1,17 @@
-spring.application.name=ai-code
+spring:
+  application:
+    name: chao-ai-code
+server:
+  port: 9000
+  servlet:
+    context-path: /api
+springdoc:
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.chao.aicode.controller
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn

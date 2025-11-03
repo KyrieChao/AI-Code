@@ -1,5 +1,6 @@
-package com.chao.oj.common.response;
+package com.chao.aicode.common.response;
 
+import com.chao.aicode.common.constants.APIConstant;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -46,12 +47,12 @@ public class ApiResponse<T> implements Serializable {
 
     // 成功 无数据
     public static <T> ApiResponse<T> success() {
-        return new ApiResponse<>(HTTPResponseCode.SUCCESS.getCode(), "success", null, null);
+        return new ApiResponse<>(HTTPResponseCode.SUCCESS.getCode(), APIConstant.SUCCESS, null, null);
     }
 
     // 成功 有数据
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(HTTPResponseCode.SUCCESS.getCode(), "success", data, null);
+        return new ApiResponse<>(HTTPResponseCode.SUCCESS.getCode(), APIConstant.SUCCESS, data, null);
     }
 
     // 自定义消息

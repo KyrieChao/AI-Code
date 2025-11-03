@@ -1,4 +1,4 @@
-package com.chao.aicode.config;
+package com.chao.aicode.common.constants;
 
 /**
  * 应用常量

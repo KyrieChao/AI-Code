@@ -1,6 +1,6 @@
-package com.chao.oj.common.exception;
+package com.chao.aicode.exception;
 
-import com.chao.oj.common.response.HTTPResponseCode;
+import com.chao.aicode.common.response.HTTPResponseCode;
 import lombok.Getter;
 
 import java.io.Serial;

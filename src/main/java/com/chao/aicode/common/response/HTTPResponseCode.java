@@ -1,4 +1,4 @@
-package com.chao.oj.common.response;
+package com.chao.aicode.common.response;
 
 import lombok.Getter;
 

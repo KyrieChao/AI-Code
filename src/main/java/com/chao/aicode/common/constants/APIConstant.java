@@ -1,5 +1,5 @@
 package com.chao.aicode.common.constants;
 
-public interface UserConstant {
+public interface APIConstant {
     String SUCCESS = "success";
 }

@@ -1,4 +1,4 @@
-package com.yupi.yuaicodemother.constant;
+package com.chao.aicode.common.constants;
 
 /**
  * 用户常量
