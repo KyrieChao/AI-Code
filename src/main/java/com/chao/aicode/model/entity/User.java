@@ -26,9 +26,6 @@ import java.time.LocalDateTime;
 @Table("user")
 public class User implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
     /**
      * id
      */
@@ -94,5 +91,6 @@ public class User implements Serializable {
      */
     @Column(value = "isDelete", isLogicDelete = true)
     private Integer isDelete;
-
+    @Serial
+    private static final long serialVersionUID = 1L;
 }

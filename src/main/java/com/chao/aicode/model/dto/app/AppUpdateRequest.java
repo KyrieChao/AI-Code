@@ -2,6 +2,7 @@ package com.chao.aicode.model.dto.app;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -20,5 +21,6 @@ public class AppUpdateRequest implements Serializable {
      */
     private String appName;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 } 

@@ -45,7 +45,16 @@ create table app
     INDEX idx_appName (appName),         -- 提升基于应用名称的查询性能
     INDEX idx_userId (userId)            -- 提升基于用户 ID 的查询性能
 ) comment '应用' collate = utf8mb4_unicode_ci;
-
+INSERT INTO app (appName, cover, initPrompt, codeGenType, deployKey, deployedTime, priority, userId, editTime, createTime, updateTime, isDelete)
+VALUES
+    ('智能问答助手', 'https://example.com/cover1.jpg', '你是一个智能问答助手，请回答用户的问题。', 'chat', 'deploy_key_001', NOW(), 1, 1001, NOW(), NOW(), NOW(), 0),
+    ('图像识别工具', 'https://example.com/cover2.jpg', '识别上传图像中的物体并返回标签。', 'vision', 'deploy_key_002', NOW(), 2, 1002, NOW(), NOW(), NOW(), 0),
+    ('代码生成器', 'https://example.com/cover3.jpg', '根据用户描述生成对应的代码片段。', 'code', 'deploy_key_003', NOW(), 3, 1003, NOW(), NOW(), NOW(), 0),
+    ('文本摘要器', 'https://example.com/cover4.jpg', '将长文本自动摘要为简洁版本。', 'summary', 'deploy_key_004', NOW(), 4, 1004, NOW(), NOW(), NOW(), 0),
+    ('语音转文字', 'https://example.com/cover5.jpg', '将语音文件转换为文字内容。', 'audio', 'deploy_key_005', NOW(), 5, 1005, NOW(), NOW(), NOW(), 0),
+    ('智能客服', 'https://example.com/cover6.jpg', '模拟客服对话，解答用户常见问题。', 'chat', 'deploy_key_006', NOW(), 6, 1006, NOW(), NOW(), NOW(), 0),
+    ('数据可视化助手', 'https://example.com/cover7.jpg', '根据上传的数据生成可视化图表。', 'data', 'deploy_key_007', NOW(), 7, 1007, NOW(), NOW(), NOW(), 0),
+    ('翻译助手', 'https://example.com/cover8.jpg', '将输入文本翻译成目标语言。', 'translation', 'deploy_key_008', NOW(), 8, 1008, NOW(), NOW(), NOW(), 0);
 -- 对话历史表
 create table chat_history
 (

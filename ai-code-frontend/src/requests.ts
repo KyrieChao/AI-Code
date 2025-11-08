@@ -1,10 +1,9 @@
 // 创建 Axios 实例
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-import { API_BASE_URL } from '../env'
 
 const myAxios = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: 'http://localhost:9000/api',
   timeout: 60000,
   withCredentials: true,
 })

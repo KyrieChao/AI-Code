@@ -14,7 +14,7 @@ import java.util.Map;
 public class MyBatisCodeGenerator {
 
     // 要生成的表名
-    private static final String[] TABLE_NAMES = {"user"};
+    private static final String[] TABLE_NAMES = {"app"};
 
     public static void main(String[] args) {
         // 获取数据元信息
@@ -39,8 +39,6 @@ public class MyBatisCodeGenerator {
         generator.generate();
     }
 
-
-    // 详细配置见：https://mybatis-flex.com/zh/others/codegen.html
     public static GlobalConfig createGlobalConfig() {
         // 创建配置内容
         GlobalConfig globalConfig = new GlobalConfig();

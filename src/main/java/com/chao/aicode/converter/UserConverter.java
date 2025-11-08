@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface UserConverter {
-    UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
+    UserConverter INSTANCE = Mappers. getMapper(UserConverter.class);
 
     LoginUserVO LoginVoTo(User user);
 

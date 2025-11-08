@@ -33,10 +33,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    private final BaseMapper baseMapper;
+    private final UserMapper userMapper;
 
-    public UserServiceImpl(BaseMapper baseMapper) {
-        this.baseMapper = baseMapper;
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(HTTPResponseCode.PARAM_ERROR, "两次密码不一致");
         }
         // 2.查询用户是否存在
-        long count = this.mapper.selectCountByQuery(new QueryWrapper().eq(User::getUserAccount, userAccount));
+        long count = userMapper.selectCountByQuery(new QueryWrapper().eq(User::getUserAccount, userAccount));
         if (count > 0) {
             throw new BusinessException(HTTPResponseCode.PARAM_ERROR, "用户已存在");
         }
@@ -83,13 +83,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 2.加密
         String encryptPassword = getEncryptPassword(userPassword);
         // 3.查询用户
-        User user = this.mapper.selectOneByQuery(new QueryWrapper()
+        User user = this.userMapper.selectOneByQuery(new QueryWrapper()
                 .eq(User::getUserAccount, userAccount)
                 .eq(User::getUserPassword, encryptPassword)
         );
-        if (user == null) {
-            throw new BusinessException(HTTPResponseCode.PARAM_ERROR, "用户不存在或密码错误");
-        }
+        if (user == null) throw new BusinessException(HTTPResponseCode.PARAM_ERROR, "用户不存在或密码错误");
         // 4.记录用户登录态
         request.getSession().setAttribute(UserConstant.USER_LOGIN_STATE, user);
         // 5.返回脱敏用户信息
@@ -103,7 +101,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(HTTPResponseCode.UNAUTHORIZED);
         }
         // 查询用户 获取罪行信息
-        user = this.mapper.selectOneById(user.getId());
+        user = this.userMapper.selectOneById(user.getId());
         if (user == null) {
             throw new BusinessException(HTTPResponseCode.UNAUTHORIZED);
         }

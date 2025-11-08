@@ -2,11 +2,14 @@ package com.chao.aicode.common.request;
 
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * 请求封装类
  */
 @Data
-public class PageRequest {
+public class PageRequest implements Serializable {
 
     /**
      * 当前页号
@@ -27,4 +30,7 @@ public class PageRequest {
      * 排序顺序（默认降序）
      */
     private String sortOrder = "descend";
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 }

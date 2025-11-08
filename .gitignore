@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Custom ignores ###
+application-local.yml
+tmp
