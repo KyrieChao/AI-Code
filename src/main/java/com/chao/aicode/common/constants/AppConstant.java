@@ -29,4 +29,8 @@ public interface AppConstant {
      * 应用部署域名
      */
     String CODE_DEPLOY_HOST = "http://localhost";
+
+    String resourcePath = "/static/";
+
+    Integer DEFAULT_DEPLOY_NAME_LENGTH = 8;
 }

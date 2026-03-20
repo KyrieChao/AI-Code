@@ -146,7 +146,7 @@ public class UserController {
     @PostMapping("/list/page/vo")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public ApiResponse<Page<UserVO>> listUserVOByPage(@RequestBody UserQueryRequest query) {
-        ThrowUtils.throwIf(query == null, HTTPResponseCode.PARAM_ERROR);
+        ThrowUtils.throwIf(query.getPageNum() <= 0 || query.getPageSize() <= 0, HTTPResponseCode.PARAM_ERROR);
         long pageNum = query.getPageNum();
         long pageSize = query.getPageSize();
         Page<User> userPage = userService.page(Page.of(pageNum, pageSize), userService.getQueryWrapper(query));

@@ -7,6 +7,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.service.IService;
 import com.chao.aicode.model.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @author <a href="https://github.com/kyriechao">陈鸽涛</a>
  */
 public interface UserService extends IService<User> {
+
     /**
      * 用户注册
      *

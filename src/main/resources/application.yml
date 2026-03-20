@@ -6,12 +6,38 @@ spring:
     url: jdbc:mysql://localhost:3306/ai_code
     username: root
     password: 893760
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username: default
+      password: 893760
+      database: 0
+      ttl: 3600
+  session:
+    store-type: redis
+    timeout: 2592000 #30天
   profiles:
     active: local
+
+exception:
+  # 全局是否输出方法名--开发true 生产false
+  print-method: true
+
 server:
   port: 9000
   servlet:
     context-path: /api
+    session:
+      cookie:
+        max-age: 2592000
+
+pexels:
+  api-key: XK7ySnj48jizvcfB2CwYjtGFoVFmfnwPoQYGO7ywJ4Q8qf4sC4podeEb
+# 阿里云 DashScope 配置
+dashscope:
+  api-key: sk-6fc626c5cf1843e7b988276a92b2eb49
+  image-model: wan2.2-t2i-flash
 springdoc:
   group-configs:
     - group: 'default'

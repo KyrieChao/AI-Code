@@ -1,8 +1,7 @@
-
 /* eslint-disable */
 import request from '@/requests'
 
-/** /user/add */
+/** 此处后端没有提供注释 POST /user/add */
 export async function addUser(body: API.UserAddRequest, options?: { [key: string]: any }) {
   return request<API.ApiResponseLong>('/user/add', {
     method: 'POST',
@@ -14,7 +13,7 @@ export async function addUser(body: API.UserAddRequest, options?: { [key: string
   })
 }
 
-/**  /user/delete */
+/** 此处后端没有提供注释 POST /user/delete */
 export async function deleteUser(body: API.DeleteRequest, options?: { [key: string]: any }) {
   return request<API.ApiResponseBoolean>('/user/delete', {
     method: 'POST',
@@ -64,7 +63,7 @@ export async function info(options?: { [key: string]: any }) {
   })
 }
 
-/**  /user/list/page/vo */
+/** 此处后端没有提供注释 POST /user/list/page/vo */
 export async function listUserVoByPage(
   body: API.UserQueryRequest,
   options?: { [key: string]: any }
@@ -79,7 +78,7 @@ export async function listUserVoByPage(
   })
 }
 
-/**  /user/login */
+/** 此处后端没有提供注释 POST /user/login */
 export async function login(body: API.UserLoginRequest, options?: { [key: string]: any }) {
   return request<API.ApiResponseLoginUserVO>('/user/login', {
     method: 'POST',
@@ -99,7 +98,7 @@ export async function logout(options?: { [key: string]: any }) {
   })
 }
 
-/**  /user/register */
+/** 此处后端没有提供注释 POST /user/register */
 export async function register(body: API.UserRegisterRequest, options?: { [key: string]: any }) {
   return request<API.ApiResponseLong>('/user/register', {
     method: 'POST',
@@ -111,7 +110,7 @@ export async function register(body: API.UserRegisterRequest, options?: { [key: 
   })
 }
 
-/**  /user/update */
+/** 此处后端没有提供注释 POST /user/update */
 export async function updateUser(body: API.UserUpdateRequest, options?: { [key: string]: any }) {
   return request<API.ApiResponseBoolean>('/user/update', {
     method: 'POST',

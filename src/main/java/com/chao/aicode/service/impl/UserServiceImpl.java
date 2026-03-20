@@ -4,19 +4,20 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.chao.aicode.common.constants.UserConstant;
 import com.chao.aicode.common.response.HTTPResponseCode;
+import com.chao.aicode.converter.UserConverter;
 import com.chao.aicode.exception.BusinessException;
 import com.chao.aicode.mapper.UserMapper;
-import com.chao.aicode.converter.UserConverter;
 import com.chao.aicode.model.dto.user.UserQueryRequest;
 import com.chao.aicode.model.entity.User;
 import com.chao.aicode.model.enums.UserRoleEnum;
 import com.chao.aicode.model.vo.LoginUserVO;
 import com.chao.aicode.model.vo.UserVO;
 import com.chao.aicode.service.UserService;
-import com.mybatisflex.core.BaseMapper;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -30,14 +31,12 @@ import java.util.stream.Collectors;
  *
  * @author <a href="https://github.com/kyriechao">陈鸽涛</a>
  */
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final UserMapper userMapper;
-
-    public UserServiceImpl(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
 
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {

@@ -40,6 +40,8 @@ public enum HTTPResponseCode {
     INTERNAL_SERVER_ERROR(40404, "Internal Server Error", "会话管理"),
     // 方法错误 405xx
     METHOD_NOT_ALLOWED(40500, "Method Not Allowed", "HTTP 方法不允许"),
+    // 不支持类型
+    UNSUPPORTED_TYPE(40501, "Unsupported Type", "操作不支持类型"),
     UNSUPPORTED_MEDIA_TYPE(41500, "Unsupported Media Type", "操作不支持类型"),
     // 频率限制 429xx
     TOO_MANY_REQUESTS(42900, "Too Many Requests", "请求过于频繁，请稍后再试"),

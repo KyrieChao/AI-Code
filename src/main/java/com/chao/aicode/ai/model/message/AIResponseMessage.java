@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class AiResponseMessage extends StreamMessage {
+public class AIResponseMessage extends StreamMessage {
 
     private String data;
 
-    public AiResponseMessage(String data) {
+    public AIResponseMessage(String data) {
         super(StreamMessageTypeEnum.AI_RESPONSE.getValue());
         this.data = data;
     }

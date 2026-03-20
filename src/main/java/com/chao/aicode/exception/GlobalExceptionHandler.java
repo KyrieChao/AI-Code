@@ -1,5 +1,6 @@
 package com.chao.aicode.exception;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.chao.aicode.common.response.ApiResponse;
 import com.chao.aicode.common.response.HTTPResponseCode;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -16,33 +18,47 @@ import java.io.IOException;
 import java.util.Map;
 
 @Hidden
-@Slf4j
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
+    @Value("${exception.print-method}")
+    private boolean printMethod;
+
     @ExceptionHandler(BusinessException.class)
-    public ApiResponse<Void> handleBusinessException(BusinessException ex) {
-        log.error("BusinessException Error -> {}", ex.getMessage(), ex);
-        return ApiResponse.error(ex.getStatusCode(), ex.getMessage(), ex.getDescription());
+    public ApiResponse<?> businessExceptionHandler(BusinessException e) {
+        // 全局异常处理器里
+        if (printMethod && StrUtil.isNotBlank(e.getMethod())) {
+            log.error("BusinessException @{} {}", e.getMethod(), e.toString());
+        } else {
+            log.error("BusinessException {}", e.toString(), e);
+        }
+        // 尝试处理 SSE 请求
+        if (handleSseError(e.getStatusCode().getCode(), e.getMessage())) {
+            return null;
+        }
+        // 对于普通请求，返回标准 JSON 响应
+        return ApiResponse.error(e.getStatusCode(), e.getDescription());
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ApiResponse<Void> handleRuntimeException(RuntimeException ex) {
-        log.error("RuntimeException Error -> {}", ex.getMessage(), ex);
-//        return ResponseEntity.status(500).body(ApiResponse.error(HTTPResponseCode.SYSTEM_ERROR, ex.getMessage(), "系统错误"));
+    public ApiResponse<?> runtimeExceptionHandler(RuntimeException e) {
+        log.error("RuntimeException", e);
         // 尝试处理 SSE 请求
-        if (handleSseError(HTTPResponseCode.SYSTEM_ERROR.getCode())) {
+        if (handleSseError(HTTPResponseCode.SYSTEM_ERROR.getCode(), "系统错误")) {
             return null;
         }
         return ApiResponse.error(HTTPResponseCode.SYSTEM_ERROR, "系统错误");
     }
+
     /**
      * 处理SSE请求的错误响应
      *
-     * @param errorCode 错误码
+     * @param errorCode    错误码
+     * @param errorMessage 错误信息
      * @return true表示是SSE请求并已处理，false表示不是SSE请求
      */
-    private boolean handleSseError(int errorCode) {
+    private boolean handleSseError(int errorCode, String errorMessage) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return false;
@@ -65,7 +81,7 @@ public class GlobalExceptionHandler {
                 Map<String, Object> errorData = Map.of(
                         "error", true,
                         "code", errorCode,
-                        "message", "系统错误"
+                        "message", errorMessage
                 );
                 String errorJson = JSONUtil.toJsonStr(errorData);
                 // 发送业务错误事件（避免与标准error事件冲突）

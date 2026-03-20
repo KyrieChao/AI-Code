@@ -1,15 +1,10 @@
 package com.chao.aicode.core;
 
-import com.chao.aicode.ai.model.HtmlCodeResult;
-import com.chao.aicode.ai.model.MultiFileCodeResult;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * 代码解析器
  * 提供静态方法解析不同类型的代码内容
  */
+/*
 @Deprecated
 public class CodeParser {
 
@@ -17,9 +12,11 @@ public class CodeParser {
     private static final Pattern CSS_CODE_PATTERN = Pattern.compile("```css\\s*\\n([\\s\\S]*?)```", Pattern.CASE_INSENSITIVE);
     private static final Pattern JS_CODE_PATTERN = Pattern.compile("```(?:js|javascript)\\s*\\n([\\s\\S]*?)```", Pattern.CASE_INSENSITIVE);
 
-    /**
+    */
+/**
      * 解析 HTML 单文件代码
-     */
+     *//*
+
     public static HtmlCodeResult parseHtmlCode(String codeContent) {
         HtmlCodeResult result = new HtmlCodeResult();
         // 提取 HTML 代码
@@ -33,9 +30,11 @@ public class CodeParser {
         return result;
     }
 
-    /**
+    */
+/**
      * 解析多文件代码（HTML + CSS + JS）
-     */
+     *//*
+
     public static MultiFileCodeResult parseMultiFileCode(String codeContent) {
         MultiFileCodeResult result = new MultiFileCodeResult();
         // 提取各类代码
@@ -57,12 +56,14 @@ public class CodeParser {
         return result;
     }
 
-    /**
+    */
+/**
      * 提取HTML代码内容
      *
      * @param content 原始内容
      * @return HTML代码
-     */
+     *//*
+
     private static String extractHtmlCode(String content) {
         Matcher matcher = HTML_CODE_PATTERN.matcher(content);
         if (matcher.find()) {
@@ -71,13 +72,15 @@ public class CodeParser {
         return null;
     }
 
-    /**
+    */
+/**
      * 根据正则模式提取代码
      *
      * @param content 原始内容
      * @param pattern 正则模式
      * @return 提取的代码
-     */
+     *//*
+
     private static String extractCodeByPattern(String content, Pattern pattern) {
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
@@ -85,4 +88,4 @@ public class CodeParser {
         }
         return null;
     }
-}
+}*/

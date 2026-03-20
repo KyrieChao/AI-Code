@@ -2,7 +2,9 @@
 // API 唯一标识：
 import * as userController from './userController'
 import * as healthController from './healthController'
+import * as appController from './appController'
 export default {
   userController,
   healthController,
+  appController,
 }
