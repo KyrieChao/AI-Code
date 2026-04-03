@@ -3,6 +3,7 @@ package com.chao.aicode.common.response;
 import com.chao.aicode.common.constants.APIConstant;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.format.DateTimeFormatter;
  * 统一 HTTP 响应格式
  */
 @Data
+@NoArgsConstructor
 public class ApiResponse<T> implements Serializable {
     /**
      * 状态码

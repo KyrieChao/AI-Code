@@ -13,13 +13,17 @@ import com.chao.aicode.model.dto.app.*;
 import com.chao.aicode.model.entity.App;
 import com.chao.aicode.model.entity.User;
 import com.chao.aicode.model.vo.AppVO;
+import com.chao.aicode.ratelimter.annotation.RateLimit;
+import com.chao.aicode.ratelimter.enums.RateLimitType;
 import com.chao.aicode.service.AppService;
 import com.chao.aicode.service.ProjectDownloadService;
 import com.chao.aicode.service.UserService;
 import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +31,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,6 +57,7 @@ public class AppController {
      * @return 应用列表vo
      */
     @GetMapping(value = "/chat/gen/code", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @RateLimit(limitType = RateLimitType.USER, rate = 5, rateInterval = 60, message = "AI 对话请求过于频繁，请稍后再试")
     public Flux<ServerSentEvent<String>> chatGenCode(@RequestParam Long appId, @RequestParam String message, HttpServletRequest request) {
         ThrowUtils.throwIf(appId == null || appId <= 0, HTTPResponseCode.PARAM_ERROR, "appId不能为空");
         ThrowUtils.throwIf(StrUtil.isBlank(message), HTTPResponseCode.PARAM_ERROR, "prompt不能为空");
@@ -183,10 +189,27 @@ public class AppController {
     /**
      * 分页查询精选的应用列表（支持根据名称查询，每页最多20个）
      */
-    @PostMapping("/list/featured/page/vo")
-    public ApiResponse<Page<AppVO>> listFeaturedAppByPage(@RequestBody AppQueryRequest queryRequest) {
-        ThrowUtils.throwIf(queryRequest == null, HTTPResponseCode.PARAM_ERROR);
-        Page<AppVO> appVOPage = appService.listFeaturedAppByPage(queryRequest);
+    @PostMapping("/good/list/page/vo")
+    @Cacheable(
+            value = "good_app_page",
+            key = "T(com.chao.aicode.util.CacheKeyUtils).generateKey(#appQueryRequest)",
+            condition = "#appQueryRequest.pageNum <= 10"
+    )
+    public ApiResponse<Page<AppVO>> listGoodAppVOByPage(@RequestBody AppQueryRequest appQueryRequest) {
+        ThrowUtils.throwIf(appQueryRequest == null, HTTPResponseCode.PARAM_ERROR);
+        // 限制每页最多 20 个
+        long pageSize = appQueryRequest.getPageSize();
+        ThrowUtils.throwIf(pageSize > 20, HTTPResponseCode.PARAM_ERROR, "每页最多查询 20 个应用");
+        long pageNum = appQueryRequest.getPageNum();
+        // 只查询精选的应用
+        appQueryRequest.setPriority(AppConstant.GOOD_APP_PRIORITY);
+        QueryWrapper queryWrapper = appService.getQueryWrapper(appQueryRequest);
+        // 分页查询
+        Page<App> appPage = appService.page(Page.of(pageNum, pageSize), queryWrapper);
+        // 数据封装
+        Page<AppVO> appVOPage = new Page<>(pageNum, pageSize, appPage.getTotalRow());
+        List<AppVO> appVOList = appService.getAppVOList(appPage.getRecords());
+        appVOPage.setRecords(appVOList);
         return ApiResponse.success(appVOPage);
     }
 
